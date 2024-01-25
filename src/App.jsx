@@ -5,7 +5,7 @@ import AppBar from "./AppBar";
 import LandingPage from "./Landing";
 import AddCourse from "./AddCourse";
 import Courses from "./Courses";
-import Course from "./EditCourse";
+import EditCourse from "./EditCourse";
 
 function App() {
   return (
@@ -27,7 +27,7 @@ function App() {
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/addcourse" element={<AddCourse />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/courses/:courseId" element={<Course />} />
+          <Route path="/courses/:courseId" element={<EditCourse />} />
         </Routes>
       </div>
     </Router>

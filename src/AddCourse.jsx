@@ -25,9 +25,9 @@ function AddCourse() {
   const [description, setDescription] = useState("");
   const [isChecked, setIsChecked] = useState(true);
   const [imageLink, setimageLink] = useState("");
+  const [price, setPrice] = useState(0);
   return (
     <div>
-      {title}
       <div
         style={{
           paddingTop: "150px",
@@ -72,25 +72,6 @@ function AddCourse() {
                 setDescription(e.target.value);
               }}
             />
-            {/* <FormControl variant="standard" fullWidth={true} style={{
-              paddingLeft: "5px"
-            }}>
-              <InputLabel htmlFor="input-with-icon-adornment" style={{
-              paddingLeft: "5px"
-            }}>
-                Price
-              </InputLabel>
-              <Input
-                id="input-with-icon-adornment"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <img src={RupeeLogo} style={{
-                      height: "20px"
-                    }} />
-                  </InputAdornment>
-                }
-              />
-            </FormControl> */}
             <TextField
               fullWidth={true}
               label="Image Link"
@@ -99,6 +80,16 @@ function AddCourse() {
               style={{ margin: "10px 0" }}
               onChange={(e) => {
                 setimageLink(e.target.value);
+              }}
+            />
+            <TextField
+              fullWidth={true}
+              label="Price"
+              multiline
+              maxRows={4}
+              style={{ margin: "10px 0" }}
+              onChange={(e) => {
+                setPrice(e.target.value);
               }}
             />
             <FormGroup
@@ -123,27 +114,31 @@ function AddCourse() {
               size="large"
               variant="contained"
               onClick={async () => {
-                await axios.post(
-                  "http://localhost:3000/admin/courses",
-                  {
-                    title: title,
-                    description: description,
-                    published: isChecked,
-                    imageLink: imageLink,
-                  },
-                  {
-                    headers: {
-                      authorization:
-                        "Bearer " + localStorage.getItem("authorization"),
+                await axios
+                  .post(
+                    "http://localhost:3000/admin/courses",
+                    {
+                      title: title,
+                      description: description,
+                      published: isChecked,
+                      imageLink: imageLink,
+                      price: price,
                     },
-                  }
-                ).then(() => {
-                  console.log(title, "created successfully");
-                      alert(title + " created successfully");
-                }).catch((error) => {
-                  console.log("encountered an error: ", error);
-                  alert("unable to create " + title + " course");
-                })
+                    {
+                      headers: {
+                        authorization:
+                          "Bearer " + localStorage.getItem("authorization"),
+                      },
+                    }
+                  )
+                  .then(() => {
+                    console.log(title, "created successfully");
+                    alert(title + " created successfully");
+                  })
+                  .catch((error) => {
+                    console.log("encountered an error: ", error);
+                    alert("unable to create " + title + " course");
+                  });
 
                 // fetch("http://localhost:3000/admin/courses", {
                 //   method: "POST",
