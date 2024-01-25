@@ -14,7 +14,7 @@ function App() {
         style={{
           width: "100vw",
           height: "100vh",
-          background: "#C5E898",
+          background: "#F3F3F3	",
           overflowX: "hidden",
         }}
         id="ogdiv"
