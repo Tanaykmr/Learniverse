@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Typography, Card, TextField, Button } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 //edit the courses
 function Course() {
   let { courseId } = useParams();
@@ -43,7 +45,10 @@ function Course() {
         }}
       >
         <CourseCard currentCourse={currentCourse}></CourseCard>
-        <UpdateCard currentCourse={currentCourse} setCurrentCourse={setCurrentCourse}></UpdateCard>
+        <UpdateCard
+          currentCourse={currentCourse}
+          setCurrentCourse={setCurrentCourse}
+        ></UpdateCard>
       </div>
     );
   }
@@ -85,7 +90,6 @@ function CourseCard(props) {
           // display: "flex",
           // justifyContent: "center",
           // marginRight: "190px",
-
           width: "250px",
           padding: "5px",
           border: "5px solid black",
@@ -100,6 +104,7 @@ function CourseCard(props) {
 }
 
 function UpdateCard(props) {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isChecked, setIsChecked] = useState(true);
@@ -168,47 +173,80 @@ function UpdateCard(props) {
           />
         </FormGroup>
         <br />
-        <Button
-          size="large"
-          variant="contained"
-          onClick={async () => {
-            await axios
-              .put(
-                "http://localhost:3000/admin/courses/" +
-                  props.currentCourse._id,
-                {
-                  title: title,
-                  description: description,
-                  published: isChecked,
-                  imageLink: imageLink,
-                },
-                {
-                  headers: {
-                    authorization: "Bearer " + localStorage.getItem("authorization"),
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            size="large"
+            variant="contained"
+            onClick={async () => {
+              await axios
+                .put(
+                  "http://localhost:3000/admin/courses/" +
+                    props.currentCourse._id,
+                  {
+                    title: title,
+                    description: description,
+                    published: isChecked,
+                    imageLink: imageLink,
                   },
-                }
-              )
-              .then((response) => {
-                alert(response.data.message);
-                console.log(response.data.message);
-                let updatedCourse = {
-                  _id: props.currentCourse._id,
-                  title: title,
-                  description: description,
-                  imageLink: imageLink,
-                  published: isChecked
-                }
-                props.setCurrentCourse(updatedCourse);
-              })
-              .catch((error) => {
-                console.log("unable to update the course");
-                console.log("the error is: ", error);
-                alert("unable to update the course");
-              })
-          }}
-        >
-          Update course
-        </Button>
+                  {
+                    headers: {
+                      authorization:
+                        "Bearer " + localStorage.getItem("authorization"),
+                    },
+                  }
+                )
+                .then((response) => {
+                  alert(response.data.message);
+                  console.log(response.data.message);
+                  let updatedCourse = {
+                    _id: props.currentCourse._id,
+                    title: title,
+                    description: description,
+                    imageLink: imageLink,
+                    published: isChecked,
+                  };
+                  props.setCurrentCourse(updatedCourse);
+                })
+                .catch((error) => {
+                  console.log("unable to update the course");
+                  console.log("the error is: ", error);
+                  alert("unable to update the course");
+                });
+            }}
+          >
+            Update course
+          </Button>
+          <Button
+            size="large"
+            variant="contained"
+            startIcon={<DeleteIcon />}
+            color="error"
+            onClick={async () => {
+              try {
+                await axios
+                  .delete(
+                    "http://localhost:3000/admin/courses/" +
+                      props.currentCourse._id,
+                    {
+                      headers: {
+                        authorization:
+                          "Bearer " + localStorage.getItem("authorization"),
+                      },
+                    }
+                  )
+                  .then(() => {
+                    // window.location = "/courses";
+                    navigate("/courses");
+                    console.log("deleted the course");
+                  });
+              } catch (error) {
+                console.log("error deleting course: ", error);
+              }
+            }}
+          >
+            Delete course
+          </Button>
+        </div>
       </div>
     </Card>
   );

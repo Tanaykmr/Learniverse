@@ -9,9 +9,7 @@ function SignIn() {
   const [password, setPassword] = useState("");
   return (
     <div>
-      email: {email}
-      <br />
-      password: {password}
+
       <div
         style={{
           paddingTop: "150px",
@@ -76,11 +74,6 @@ function SignIn() {
                     console.log("signed in successfully");
                     localStorage.setItem("authorization", response.data.token);
                     window.location = "/courses";
-                    // }
-                    // else{
-                    //   console.log("hi from else of response");
-                    //   console.log("unable to sign in");
-                    // }
                   })
                   .catch((error) => {
                     console.log("hi from error");
