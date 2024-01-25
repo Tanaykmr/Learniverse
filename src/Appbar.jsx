@@ -30,6 +30,7 @@ function AppBar() {
           background: "#F3F3F3",
           display: "flex",
           justifyContent: "space-between",
+          marginBottom: "5px",
         }}
       >
         <Typography variant="h4" style={{ marginLeft: "10px" }}>
@@ -37,7 +38,6 @@ function AppBar() {
         </Typography>
 
         <div
-          class="button-class"
           style={{
             margin: "5px 10px 0 0",
             display: "flex",
@@ -88,7 +88,6 @@ function AppBar() {
         </Typography>
 
         <div
-          class="button-class"
           style={{
             margin: "5px 10px 0 0",
             display: "flex",
