@@ -5,6 +5,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import { forEach } from "lodash";
 import { useNavigate } from "react-router-dom";
+import {BASE_URL} from "../config.js";
+
 
 // lists out all the courses
 
@@ -13,7 +15,7 @@ function Courses() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/courses", {
+      .get(`${BASE_URL}/admin/courses`, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("authorization"),
         },
@@ -22,11 +24,12 @@ function Courses() {
         console.log(response);
         setCourses(response.data.courses);
       })
-      .catch(() => {
+      .catch((error) => {
         console.log("Network response was not ok");
+        console.log("error is: ", error)
       });
 
-    // fetch("http://localhost:3000/admin/courses", {
+    // fetch(`${BASE_URL}/admin/courses`, {
     //   method: "GET",
     //   headers: {
     //     authorization: "Bearer " + localStorage.getItem("authorization"),
@@ -69,9 +72,6 @@ function Courses() {
 
 function Course(props) {
   const navigate = useNavigate();
-  {
-    console.log("hello from Course component from inside courses");
-  }
   return (
     <Grid container spacing={5}>
       <Grid item xs={12}>
@@ -82,10 +82,6 @@ function Course(props) {
             width: 300,
             minHeight: 200,
             padding: 20,
-            // margin: 10,
-            // width: 300,
-            // height: 207.445,
-            // padding: 20,
           }}
           id="mainCard"
           elevation={4}
@@ -104,13 +100,6 @@ function Course(props) {
               width: 300,
               height: 168.328,
               border: "5px solid orange",
-              // width: "200px",
-              // padding: "5px",
-              // border: "5px solid #555",
-              // display: "block",
-              // marginLeft: "auto",
-              // marginRight: "auto",
-              // marginBottom: "5px",
             }}
           ></img>
           <div
@@ -123,10 +112,10 @@ function Course(props) {
             <Button
               variant="contained"
               onClick={() => {
-                console.log("edit course clicked");
+
                 navigate("/courses/" + props.coursee._id);
                 // await axios.put(
-                //   "http://localhost:3000/admin/changeimg/" + props.coursee._id,
+                //   `${BASE_URL}/admin/changeimg/` + props.coursee._id,
                 //   {
                 //     title: props.coursee.title,
                 //     description: props.coursee.description,
@@ -152,6 +141,6 @@ function Course(props) {
   );
 }
 
-// this is to ensure the strictness of the i/p that goes in, this is amongst the places whre TS comes into play and helps us make code more strict
+// prop types are to ensure the strictness of the i/p that goes in, this is amongst the places whre TS comes into play and helps us make code more strict
 
 export default Courses;

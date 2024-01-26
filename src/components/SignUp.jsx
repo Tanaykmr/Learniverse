@@ -3,13 +3,16 @@ import TextField from "@mui/material/TextField";
 import { Card, Typography } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
-//TODO: remove creation of a jwt when user signs up
+import { Navigate, useNavigate } from "react-router-dom";
+import {BASE_URL} from "../config";
+
+
 function SignUp() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
     <div>
-      {email}
       <div
         style={{
           paddingTop: "150px",
@@ -18,7 +21,9 @@ function SignUp() {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h6">Welcome to Coursera, Sign up below</Typography>
+        <Typography variant="h6" >
+          Welcome to Coursera, Sign up below
+        </Typography>
       </div>
       <div
         style={{
@@ -27,6 +32,7 @@ function SignUp() {
         }}
       >
         <Card
+          sx={{ borderRadius: "15px" }}
           style={{
             width: "400px",
             padding: "20px",
@@ -36,8 +42,7 @@ function SignUp() {
           <div>
             <TextField
               fullWidth={true}
-              // id="username"
-              // it is not preferable to give IDs to anything in react
+
               label="Email"
               variant="outlined"
               style={{ margin: "10px 0" }}
@@ -61,38 +66,40 @@ function SignUp() {
             <Button
               size="large"
               variant="contained"
-              onClick={ async() => {
+
+              onClick={async () => {
                 // let Username = document.getElementById("username").value;
                 // let Password = document.getElementById("password").value;
                 // using getElementbyId is not the optimal way, since it is not preferable to give IDs to anything in react. we should use onChange in the <TextField> component
 
-                  console.log("hi from start");
-                  await axios.post(
-                    "http://localhost:3000/admin/signup",
-                    {
-                      username: email,
-                      password: password,
-                    }
-                  ).then(()=> {
-                    alert("signed up successfully")
-                  }).catch((error)=>{
-                    console.log("hi from error");
-                  console.error("Axios error:", error);
 
-                  if (error.response) {
-                    console.log(
-                      "Request was made, but there was an error:",
-                      error.response.status
-                    );
-                    alert("Admin already exists")
-                    // Handle specific errors based on the status code if needed
-                  } else {
-                    console.log("Unknown error:", error.message);
-                    // Handle unknown errors
-                  }
+                await axios
+                  .post(`${BASE_URL}/admin/signup`, {
+                    username: email,
+                    password: password,
                   })
-                  
+                  .then((response) => {
+                    console.log("response is: ", response);
+                    localStorage.setItem("authorization", response.data.token);
+                    //TODO: use recoil in such a way that appbar automatically rerenders and detects the state change
+                    window.location = "/courses";
+                  })
+                  .catch((error) => {
 
+                    console.error("Axios error:", error);
+
+                    if (error.response) {
+                      console.log(
+                        "Request was made, but there was an error:",
+                        error.response.status
+                      );
+                      alert("Admin already exists");
+
+                    } else {
+                      console.log("Unknown error:", error.message);
+
+                    }
+                  });
               }}
             >
               Sign Up
@@ -104,4 +111,3 @@ function SignUp() {
   );
 }
 export default SignUp;
-

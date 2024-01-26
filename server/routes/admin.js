@@ -30,7 +30,9 @@ router.post("/signup", async (req, res) => {
       const newAdmin = new Admin(obj);
       await newAdmin.save();
       console.log("Admin created successfully");
-      res.json({ message: "Admin created successfully" });
+      const token = jwt.sign({ username, role: "admin" }, SECRET, {
+        expiresIn: "1h",})
+      res.json({ message: "Admin created successfully", token: token});
     }
   } catch (error) {
     console.error("Error creating admin:", error);
@@ -75,7 +77,7 @@ router.put("/courses/:courseId", authenticateJwt, async (req, res) => {
       res.status(404).json({ message: "Course not found" });
     }
   } catch (error) {
-    console.error("Error fetching course:", error);
+    console.error("Error editing course:", error);
     res.status(501).json({ message: "Internal Server Error" });
   }
 });

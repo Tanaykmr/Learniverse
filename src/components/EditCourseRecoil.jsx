@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import PropTypes from "prop-types";
 import { Typography, Card, TextField, Button } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,15 +10,16 @@ import {
   useRecoilValue,
   useSetRecoilState,
 } from "recoil";
+import { BASE_URL } from "./config.js";
 
 function Course() {
   let { courseId } = useParams();
   const setCourseList = useSetRecoilState(coursesState);
-  console.log("hello from main component")
+
   //   const [currentCourse, setcurrentCourse] = useState([]); we cannot let currentCourse be a state variable because "objects are not a valid react child"
 
   useEffect(() => {
-    fetch("http://localhost:3000/admin/courses/", {
+    fetch(`${BASE_URL}/admin/courses/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -57,14 +57,11 @@ function Course() {
 }
 
 function CourseCard(props) {
-  // currentCourse card here
-  console.log("hello from CourseCard");
   const courseList = useRecoilValue(coursesState);
   let currentCourse = null;
   for (let i = 0; i < courseList.length; i++) {
     if (courseList[i].id == props.courseId) {
       currentCourse = courseList[i];
-      console.log("currentCourse found in coursecard");
     }
   }
   if (!currentCourse) {
@@ -190,7 +187,7 @@ function UpdateCard(props) {
           size="large"
           variant="contained"
           onClick={() => {
-            fetch("http://localhost:3000/admin/courses/" + props.courseId, {
+            fetch(`${BASE_URL}/admin/courses/` + props.courseId, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
@@ -227,7 +224,6 @@ function UpdateCard(props) {
                   }
                 }
                 setCourseList(updatedCourses);
-                //
               });
           }}
         >
@@ -238,7 +234,6 @@ function UpdateCard(props) {
   );
 }
 
-
 //TODO: add course prop strictness(proptypes)
 export default Course;
 
@@ -246,4 +241,3 @@ const coursesState = atom({
   key: "coursesState", //should be unique for every atom
   default: " ",
 });
-

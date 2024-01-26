@@ -6,11 +6,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
-// import Input from "@mui/material/Input";
-// import InputLabel from "@mui/material/InputLabel";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import FormControl from "@mui/material/FormControl";
-// import RupeeLogo from "./component-assets/rupee.png";
+import {BASE_URL} from "../config.js";
+
 
 function AddCourse() {
   // attributes of a course:
@@ -116,7 +113,7 @@ function AddCourse() {
               onClick={async () => {
                 await axios
                   .post(
-                    "http://localhost:3000/admin/courses",
+                    `${BASE_URL}/admin/courses`,
                     {
                       title: title,
                       description: description,
@@ -132,7 +129,6 @@ function AddCourse() {
                     }
                   )
                   .then(() => {
-                    console.log(title, "created successfully");
                     alert(title + " created successfully");
                   })
                   .catch((error) => {
@@ -140,7 +136,7 @@ function AddCourse() {
                     alert("unable to create " + title + " course");
                   });
 
-                // fetch("http://localhost:3000/admin/courses", {
+                // fetch(`${BASE_URL}/admin/courses`, {
                 //   method: "POST",
                 //   headers: {
                 //     "Content-Type": "application/json",

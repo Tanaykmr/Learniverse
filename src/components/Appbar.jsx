@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import {BASE_URL} from "./config.js";
+
 
 function AppBar() {
   const navigate = useNavigate();
@@ -12,7 +14,7 @@ function AppBar() {
   //we use useEffect to perform side operations such as fetching, checking etc, more info here: https://chat.openai.com/share/6e3b732d-b0df-44e8-b56b-248241e049d2
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/me", {
+      .get(`${BASE_URL}/admin/me`, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("authorization"),
         },
@@ -23,7 +25,6 @@ function AppBar() {
   }, []); // the empty array means that the function will only run when appbar mounts/umounts(loads)
 
   if (userEmail) {
-    // this is the same old appbar component, just with logout button
     return (
       <div
         style={{
