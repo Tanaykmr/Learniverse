@@ -3,10 +3,19 @@ import TextField from "@mui/material/TextField";
 import { Card, Typography } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import userEmailState from "../store/selectors/userEmail";
+import userState from "../store/atoms/user";
+import {BASE_URL} from "../config";
+
 
 function SignIn() {
-  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("");
+  const setUser = useSetRecoilState(userState);
+
   return (
     <div>
 
@@ -55,28 +64,27 @@ function SignIn() {
               style={{ marginTop: "10px" }}
               onClick={async () => {
                 await axios
-                  .post("http://localhost:3000/admin/login", undefined, {
+                  .post(`${BASE_URL}/admin/login`, undefined, {
                     headers: {
                       username: email,
                       password: password,
                     },
                   })
                   .then((response) => {
-                    console.log(
-                      "hi from response\nusername:",
-                      email,
-                      "password: ",
-                      password
-                    );
+                    setUser({
+                      isLoading: false,
+                      userEmail: email
+                    });
                     console.log("response is: ", response);
-                    // if (response.status == 200) {
-                    console.log("hi from response.status==200");
+
+
                     console.log("signed in successfully");
                     localStorage.setItem("authorization", response.data.token);
-                    window.location = "/courses";
+                    navigate("/courses");
+
                   })
                   .catch((error) => {
-                    console.log("hi from error");
+
                     console.error("Axios error:", error);
 
                     if (error.response) {
@@ -85,13 +93,13 @@ function SignIn() {
                         error.response.status
                       );
                       alert("Invalid credentials");
-                      // Handle specific errors based on the status code if needed
+
                     } else {
                       console.log("Unknown error:", error.message);
-                      // Handle unknown errors
+
                     }
                   });
-                //   fetch("http://localhost:3000/admin/login", {
+                //   fetch(`${BASE_URL}/admin/login`, {
                 //     method: "POST",
                 //     headers: {
                 //       "Content-Type": "application/json",
