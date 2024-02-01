@@ -15,14 +15,10 @@ function AppBar() {
 
   //we use useEffect to perform side operations such as fetching, checking etc, more info here: https://chat.openai.com/share/6e3b732d-b0df-44e8-b56b-248241e049d2
 
-
-
   if (userLoading) {
     return <>loading...</>;
   }
   if (userEmail) {
-
-
     return (
       <div
         style={{
@@ -32,9 +28,20 @@ function AppBar() {
           marginBottom: "5px",
         }}
       >
-        <Typography variant="h4" style={{ marginLeft: "10px" }}>
-          Coursera
-        </Typography>
+        <div
+          style={{ display: "flex", justifyContent: "space-between" }}
+          onClick={() => {
+            navigate("/courses");
+          }}
+        >
+          <Typography variant="h4" style={{ marginLeft: "10px" }}>
+            Coursera
+          </Typography>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/12663/12663066.png"
+            style={{ height: "30px", width: "30px", margin: "5px 0 0 5px" }}
+          />
+        </div>
 
         <div
           style={{
@@ -76,7 +83,6 @@ function AppBar() {
       </div>
     );
   } else {
-
     return (
       <div
         style={{
@@ -86,16 +92,27 @@ function AppBar() {
           marginBottom: "5px",
         }}
       >
-        <Typography variant="h4" style={{ marginLeft: "10px" }}>
-          Coursera
-        </Typography>
+        <div
+          style={{ display: "flex", justifyContent: "space-between" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <Typography variant="h4" style={{ marginLeft: "10px" }}>
+            Coursera
+          </Typography>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/12663/12663066.png"
+            style={{ height: "30px", width: "30px", margin: "5px 0 0 5px" }}
+          />
+        </div>
 
         <div
           style={{
             margin: "5px 10px 0 0",
             display: "flex",
             justifyContent: "space-between",
-            marginBottom: "5px"
+            marginBottom: "5px",
           }}
         >
           <Button
