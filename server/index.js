@@ -17,5 +17,6 @@ app.get("/", (req, res) => res.json({msg: "hello world after the class"}));
 // DONT MISUSE THIS THANKYOU!!
 mongoose.connect(
   // <insert mongodb link here>
+  "mongodb+srv://ClusterMaster:wtAuGNFqpatanQNW@cluster01.bktt4jz.mongodb.net/coursesDB"
   );
 app.listen(3000, () => console.log('Server running on port http://localhost:3000'));
