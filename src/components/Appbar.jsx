@@ -35,7 +35,7 @@ function AppBar() {
         }}
       >
         <Typography variant="h4" style={{ marginLeft: "10px" }}>
-          Coursera
+          Learniverse
         </Typography>
 
         <div
@@ -85,7 +85,7 @@ function AppBar() {
         }}
       >
         <Typography variant="h4" style={{ marginLeft: "10px" }}>
-          Coursera
+          Learniverse
         </Typography>
 
         <div
