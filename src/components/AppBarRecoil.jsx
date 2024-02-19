@@ -35,7 +35,7 @@ function AppBar() {
           }}
         >
           <Typography variant="h4" style={{ marginLeft: "10px" }}>
-            Coursera
+            Learniverse
           </Typography>
           <img
             src="https://cdn-icons-png.flaticon.com/512/12663/12663066.png"
@@ -99,7 +99,7 @@ function AppBar() {
           }}
         >
           <Typography variant="h4" style={{ marginLeft: "10px" }}>
-            Coursera
+            Learniverse
           </Typography>
           <img
             src="https://cdn-icons-png.flaticon.com/512/12663/12663066.png"
