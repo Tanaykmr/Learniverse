@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Button, Card, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
-import { forEach } from "lodash";
 import { useNavigate } from "react-router-dom";
 import {BASE_URL} from "../config.js";
 
