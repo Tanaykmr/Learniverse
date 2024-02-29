@@ -20,5 +20,4 @@ mongoose.connect(
   // <insert mongodb link here>
   "mongodb+srv://ClusterMaster:wtAuGNFqpatanQNW@cluster01.bktt4jz.mongodb.net/coursesDB"
   );
-console.log("just connected to mongodb! starting server now...")
 app.listen(3000, () => console.log('Server running on port http://localhost:3000'));

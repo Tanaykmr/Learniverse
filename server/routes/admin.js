@@ -9,15 +9,6 @@ const { authenticateJwt } = require("../middleware/auth");
 
 const router = express.Router();
 
-// router.get("/me", authenticateJwt, async (req, res) => {
-//   const admin = await Admin.findOne({ username: req.user.username });
-//   if (!admin) {
-//     res.status(403).json({ message: "Admin does not exist" });
-//   } else {
-//     res.json({ username: admin.username });
-//   }
-// });
-
 router.post("/signup", async (req, res) => {
   try {
     const { username, password } = req.body;

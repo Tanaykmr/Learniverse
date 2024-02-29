@@ -107,7 +107,7 @@ function AppBar() {
             logout
           </Button>
 
-          <Button
+          {/* <Button
             variant="outlined"
             style={{ marginLeft: "10px" }}
             onClick={() => {
@@ -115,7 +115,7 @@ function AppBar() {
             }}
           >
             check
-          </Button>
+          </Button> */}
         </div>
       </div>
     );

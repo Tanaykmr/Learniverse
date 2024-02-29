@@ -135,27 +135,6 @@ function AddCourse() {
                     console.log("encountered an error: ", error);
                     alert("unable to create " + title + " course");
                   });
-
-                // fetch(`${BASE_URL}/admin/courses`, {
-                //   method: "POST",
-                //   headers: {
-                //     "Content-Type": "application/json",
-                //     authorization:
-                //       "Bearer " + localStorage.getItem("authorization"),
-                //   },
-                //   body: JSON.stringify({
-                //     title: title,
-                //     description: description,
-                //     published: isChecked,
-                //     imageLink: imageLink,
-                //   }),
-                // }).then((response) => {
-                //   if (response.ok) {
-                //     alert(title + " created successfully");
-                //   } else {
-                //     alert("unable to create " + title + " course");
-                //   }
-                // });
               }}
             >
               Create course

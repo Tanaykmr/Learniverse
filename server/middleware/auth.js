@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 
-const ADMINSECRET = 'SECr3t'; // Should be in an environment variable
+const ADMINSECRET = 'SECr3t'; //TODO: Should be in an environment variable
 const USERSECRET = "enC0d33d";
 
 const authenticateJwt = (req, res, next) => {
