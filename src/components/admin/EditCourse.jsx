@@ -97,7 +97,7 @@ function UpdateCard({ currentCourse, setCurrentCourse }) {
   const [description, setDescription] = useState(currentCourse.description);
   const [imageLink, setImageLink] = useState(currentCourse.imageLink);
   const [price, setPrice] = useState(currentCourse.price);
-  const [isChecked, setIsChecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(currentCourse.published);
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -157,7 +157,7 @@ function UpdateCard({ currentCourse, setCurrentCourse }) {
             <FormControlLabel
               control={
                 <Checkbox
-                  defaultChecked
+                  checked={isChecked}
                   onChange={(e) => {
                     setIsChecked(e.target.checked);
                   }}
@@ -243,8 +243,8 @@ function UpdateCard({ currentCourse, setCurrentCourse }) {
 }
 
 function CourseCard({ currentCourse }) {
-    const imageUrl = `https://img.youtube.com/vi/${currentCourse.imageLink}/maxresdefault.jpg`
-    return (
+  const imageUrl = `https://img.youtube.com/vi/${currentCourse.imageLink}/maxresdefault.jpg`;
+  return (
     <div
       style={{
         display: "flex",
