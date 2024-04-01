@@ -4,6 +4,7 @@ const { User, Course, Admin } = require("../db/db");
 //TODO: try removing User from above
 const jwt = require("jsonwebtoken");
 const { ADMINSECRET } = require("../middleware/auth");
+// i did a mess up by changing orgsecrets and usersecrets. gotta fix
 //TODO: try removing "auth" from above since middleware contains only 1 file
 const { authenticateJwt } = require("../middleware/auth");
 
