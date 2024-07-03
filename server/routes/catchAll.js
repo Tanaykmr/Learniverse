@@ -1,13 +1,11 @@
-const express = require("express");
-const {authenticateJwt} = require("../middleware/auth");
-const {User, Admin} = require("../db/db")
-//TODO: try removing the second DB
+import express from "express";
+import { authenticateJwt } from "../middleware/auth.js";
+import { User, Admin } from "../db/db.js";
 
-
-const router = express.Router();
+const catchAllRouter = express.Router();
 
 //have 2 secrets, but a authJWT func
-router.get("/me", authenticateJwt, (req, res) => {
+catchAllRouter.get("/me", authenticateJwt, (req, res) => {
 
     if (req.user) {
         const username = req.user.username;
@@ -32,4 +30,4 @@ router.get("/me", authenticateJwt, (req, res) => {
 
 })
 
-module.exports = router;
+export default catchAllRouter;

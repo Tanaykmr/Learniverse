@@ -1,16 +1,17 @@
-const mongoose = require("mongoose");
-const express = require("express");
-const { User, Course, Admin } = require("../db/db");
-//TODO: try removing User from above
-const jwt = require("jsonwebtoken");
-const { ADMINSECRET } = require("../middleware/auth");
+import mongoose from "mongoose";
+import express from "express";
+import jwt from "jsonwebtoken";
+import { Course, Admin } from "../db/db.js";
+import { ADMINSECRET, authenticateJwt } from "../middleware/auth.js";
+
+
+//TODO: try removing User from above. UPDATE: Done
 // i did a mess up by changing orgsecrets and usersecrets. gotta fix
 //TODO: try removing "auth" from above since middleware contains only 1 file
-const { authenticateJwt } = require("../middleware/auth");
 
-const router = express.Router();
+const adminRouter = express.Router();
 
-router.post("/signup", async (req, res) => {
+adminRouter.post("/signup", async (req, res) => {
   try {
     const { username, password } = req.body;
     const existingAdmin = await Admin.findOne({ username });
@@ -32,7 +33,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+adminRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const admin = await Admin.findOne({ username, password });
 
@@ -48,14 +49,14 @@ router.post("/login", async (req, res) => {
 });
 
 //create courses
-router.post("/courses", authenticateJwt, async (req, res) => {
+adminRouter.post("/courses", authenticateJwt, async (req, res) => {
   const course = new Course(req.body);
   await course.save();
   res.json({ message: "Course created successfully", courseId: course.id });
 });
 
 //update course by courseId
-router.put("/courses/:courseId", authenticateJwt, async (req, res) => {
+adminRouter.put("/courses/:courseId", authenticateJwt, async (req, res) => {
   console.log("courseId: ", req.params.courseId);
   try {
     const course = await Course.findByIdAndUpdate(
@@ -74,13 +75,13 @@ router.put("/courses/:courseId", authenticateJwt, async (req, res) => {
   }
 });
 
-router.get("/courses", authenticateJwt, async (req, res) => {
+adminRouter.get("/courses", authenticateJwt, async (req, res) => {
   const courses = await Course.find({});
   res.json({ courses });
 });
 
 //find course by courseId
-router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
+adminRouter.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   if (course) {
     res.json({ course });
@@ -89,7 +90,7 @@ router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   }
 });
 
-router.delete("/courses/:courseId", authenticateJwt, async(req, res) => {
+adminRouter.delete("/courses/:courseId", authenticateJwt, async(req, res) => {
   try{
     const deleteStatus = await Course.deleteMany({_id: req.params.courseId});
     console.log("deleteStatus is: ", deleteStatus);
@@ -103,7 +104,7 @@ router.delete("/courses/:courseId", authenticateJwt, async(req, res) => {
 })
 
 // implemented this quick solution to have a uniform image in all the courses xD
-// router.put("/changeimg/:courseId", authenticateJwt, async (req, res) => {
+// adminRouter.put("/changeimg/:courseId", authenticateJwt, async (req, res) => {
 //   console.log("courseId: ", req.params.courseId);
 //   try {
 //     const course = await Course.findByIdAndUpdate(
@@ -119,4 +120,4 @@ router.delete("/courses/:courseId", authenticateJwt, async(req, res) => {
 //   }
 // });
 
-module.exports = router;
+export default adminRouter;

@@ -1,13 +1,14 @@
-const express = require("express");
-const { authenticateJwt, USERSECRET } = require("../middleware/auth");
-const { User, Course } = require("../db/db");
-const jwt = require("jsonwebtoken");
+import express from "express";
+import { authenticateJwt, USERSECRET } from "../middleware/auth.js";
+import { User, Course } from "../db/db.js";
+import jwt from "jsonwebtoken";
 
-const router = express.Router();
+
+const userRouter = express.Router();
 
 //TODO: add comments everywhere
 
-router.post("/signup", async (req, res) => {
+userRouter.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username });
   if (user) {
@@ -23,7 +24,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
   if (user) {
@@ -36,12 +37,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/courses", authenticateJwt, async (req, res) => {
+userRouter.get("/courses", authenticateJwt, async (req, res) => {
   const courses = await Course.find({ published: true });
   res.json({ courses });
 });
 
-router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
+userRouter.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   //list out a single  course
   const course = await Course.findById(req.params.courseId);
   if (course) {
@@ -51,7 +52,7 @@ router.get("/courses/:courseId", authenticateJwt, async (req, res) => {
   }
 });
 
-router.post("/courses/:courseId", authenticateJwt, async (req, res) => {
+userRouter.post("/courses/:courseId", authenticateJwt, async (req, res) => {
   // purchase a course
   console.log("about to buy a course");
   const course = await Course.findById(req.params.courseId);
@@ -80,7 +81,7 @@ router.post("/courses/:courseId", authenticateJwt, async (req, res) => {
   }
 });
 
-router.get("/purchasedCourses", authenticateJwt, async (req, res) => {
+userRouter.get("/purchasedCourses", authenticateJwt, async (req, res) => {
   //list purchased courses
   const user = await User.findOne({ username: req.user.username }).populate(
     "purchasedCourses" //means to list out the "purchasedCourses" of each user
@@ -92,7 +93,7 @@ router.get("/purchasedCourses", authenticateJwt, async (req, res) => {
   }
 });
 
-router.delete("/courses/:courseId", authenticateJwt, async (req, res) => {
+userRouter.delete("/courses/:courseId", authenticateJwt, async (req, res) => {
   const user = await User.findOne({ username: req.user.username });
   const courseIdToRemove = req.params.courseId;
   console.log("while deleting, user is: ", user);
@@ -113,4 +114,4 @@ router.delete("/courses/:courseId", authenticateJwt, async (req, res) => {
       }
 });
 
-module.exports = router;
+export default userRouter;
